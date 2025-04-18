@@ -79,7 +79,11 @@ function cargarStopwords()
 
 <h1>Analizador de Texto</h1>
     <form method="post">
+<<<<<<< HEAD
         <textarea name="texto" class="form-control"  placeholder="Introduce tu texto aquí..."><?php echo htmlspecialchars($texto); ?></textarea><br><br><!--Para evitar que el usuario meta código HTML o JavaScript y se ejecute en el navegador -->
+=======
+        <textarea class="form-control" name="texto" placeholder="Introduce tu texto aquí..."><?php echo htmlspecialchars($texto); ?></textarea><br><br><!--Para evitar que el usuario meta código HTML o JavaScript y se ejecute en el navegador -->
+>>>>>>> c0ffdd3809a57cda294aedd501a999f94f37f0aa
         <button type="submit">Analizar</button>
         <button type="button" onclick="document.querySelector('textarea').value = '';">Borrar</button>
     </form>
@@ -103,6 +107,6 @@ function cargarStopwords()
         <?php endif; ?>
     <?php endif; ?>
 
-</body>
+    </body>
 
 </html>
