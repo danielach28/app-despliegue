@@ -98,7 +98,7 @@ function cargarStopwords()
                 <?php endforeach; ?>
             </table>
         <?php else : ?>
-            <p>No se encontraron palabras significativas.</p>
+            <p>No se han encontrado palabras significativas.</p>
         <?php endif; ?>
     <?php endif; ?>
 
