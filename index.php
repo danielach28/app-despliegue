@@ -32,6 +32,37 @@ function cargarStopwords()
         return $stopwords;
     }
 
+    //Función que limpia el texto y lo convierte en un array de palabras útiles.
+    function procesarTexto($texto, $stopwords)
+    {
+        $texto = mb_strtolower($texto, 'UTF-8'); // Convertimos todo a minúsculas
+
+        $texto = preg_replace('/[^a-záéíóúñü0-9\s]/iu', ' ', $texto); // Quitamos puntuación
+
+        $palabras_raw = explode(' ', $texto); // Separamos por espacios
+
+        $palabras_limpias = []; //Array para almacenar las palabras válidas y su frecuencia.
+
+        //Bucle para filtrar y contar palabras
+        foreach ($palabras_raw as $palabra) {
+            $palabra = trim($palabra);
+            if ($palabra !== '' && !isset($stopwords[$palabra])) { // Si no está vacía y no es una stopword, la contamos
+                //Si la palabra no está aún en $palabras_limpias, la añade con un valor de 1
+                if (!isset($palabras_limpias[$palabra])) {
+                    $palabras_limpias[$palabra] = 1;
+                } else {
+                    //Si ya existe, incrementa su frecuencia.
+                    $palabras_limpias[$palabra]++;
+                }
+            }
+        }
+
+
+        arsort($palabras_limpias);  // Ordenar por frecuencia (de mayor a menor)
+
+        return $palabras_limpias;
+    }
+
 ?>
 <h1>Analizador de Texto</h1>
     <form method="post">
