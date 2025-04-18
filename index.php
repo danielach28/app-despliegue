@@ -11,6 +11,17 @@
 <body>
 
 <?php
+// Inicializamos las variables para evitar errores al cargar por primera vez
+$texto = '';
+$resultado = [];
+
+
+// Si el formulario se envió y el campo 'texto' existe
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['texto'])) {
+    $texto = $_POST['texto']; // Captura el texto enviado
+    $stopwords = cargarStopwords();           // Carga las palabras vacías (stopwords)
+    $resultado = procesarTexto($texto, $stopwords); // Procesa el texto y cuenta las palabras útiles
+}
 
 function cargarStopwords()
     {
@@ -64,18 +75,32 @@ function cargarStopwords()
     }
 
 ?>
+
 <h1>Analizador de Texto</h1>
     <form method="post">
         <textarea name="texto" placeholder="Introduce tu texto aquí..."><?php echo htmlspecialchars($texto); ?></textarea><br><br><!--Para evitar que el usuario meta código HTML o JavaScript y se ejecute en el navegador -->
         <button type="submit">Analizar</button>
         <button type="button" onclick="document.querySelector('textarea').value = '';">Borrar</button>
     </form>
-    <table>
-        <tr>
-            <th>Palabra</th>
-            <th>Frecuencia</th>
-        </tr>
-    </table>
+    <?php if ($_SERVER["REQUEST_METHOD"] === "POST") : ?>
+        <h2>Frecuencia de Palabras</h2>
+        <?php if (!empty($resultado)) : ?>
+            <table>
+                <tr>
+                    <th>Palabra</th>
+                    <th>Frecuencia</th>
+                </tr>
+                <?php foreach ($resultado as $palabra => $frecuencia) : ?>
+                    <tr>
+                        <td><?= htmlspecialchars($palabra) ?></td>
+                        <td><?= $frecuencia ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else : ?>
+            <p>No se encontraron palabras significativas.</p>
+        <?php endif; ?>
+    <?php endif; ?>
 
 </body>
 
